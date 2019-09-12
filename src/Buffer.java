@@ -30,17 +30,12 @@ public class Buffer {
 		}
 	}
 	
-	public Mensaje retirar() {
-		synchronized(this) {
-			while(mensajesEnCola.size()==0) {
-				Thread.yield();
-			}
+	public synchronized Mensaje retirar() {
+		while(mensajesEnCola.size()==0) {
+			return null;
 		}
-		
 		Mensaje m;
-		synchronized(this) {
-			m=mensajesEnCola.remove(0);
-		}
+		m=mensajesEnCola.remove(0);
 		return m;
 	}
 	
@@ -62,6 +57,10 @@ public class Buffer {
 
 	public synchronized void RestarCliente() {
 		clientes--;		
+	}
+	
+	public int getClientes() {
+		return clientes;
 	}
 
 }
